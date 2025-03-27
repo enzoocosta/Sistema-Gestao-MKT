@@ -1,4 +1,5 @@
-📊 Marketing Analytics Dashboard
+📊 Marketing Analytics Dashboard 
+
 Um sistema completo para análise de desempenho de campanhas de marketing, vendas e ROI
 
 🚧 Este projeto está em ativo desenvolvimento. Novas funcionalidades estão sendo implementadas e melhorias são feitas regularmente. 🚧
