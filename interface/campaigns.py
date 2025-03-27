@@ -1,7 +1,7 @@
 import streamlit as st
 from database.operations import DBOperations
 from datetime import datetime
-from interface.components.delete_modal import delete_modal  # Adicione este import
+from interface.components.delete_modal import delete_modal  
 
 class CampaignManager:
     def __init__(self):
