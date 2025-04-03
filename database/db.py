@@ -83,9 +83,10 @@ class DatabaseManager:
                 quantity INT NOT NULL,
                 sale_date DATE NOT NULL,
                 platform VARCHAR(50) NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
                 FOREIGN KEY (user_id) REFERENCES users(id)
-            )
-            """)
+        )
+    """)
 
             cursor.execute("""
             CREATE TABLE IF NOT EXISTS products (

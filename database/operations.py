@@ -217,12 +217,19 @@ class DBOperations:
             cursor.close()
             conn.close()
     
-    def get_user_sales(self, user_id):
-        """Obtém todas as vendas de um usuário"""
+    def get_user_sales(self, user_id, limit=None):
+        """Obtém vendas do usuário com suporte a limite"""
         conn = self.db.connect()
         cursor = conn.cursor(dictionary=True)
         try:
-            cursor.execute("SELECT * FROM sales WHERE user_id = %s", (user_id,))
+            query = "SELECT * FROM sales WHERE user_id = %s ORDER BY created_at DESC"
+            params = (user_id,)
+        
+            if limit is not None:
+                query += " LIMIT %s"
+                params = (user_id, limit)
+        
+            cursor.execute(query, params)
             return cursor.fetchall()
         finally:
             cursor.close()
@@ -420,6 +427,32 @@ class DBOperations:
             traceback.print_exc()
             st.error(f"Erro ao buscar dados de vendas: {str(e)}")
             return []
+        finally:
+            cursor.close()
+            conn.close()
+
+    def execute_fetch_query(self, query, params=None):
+        """Para queries SELECT que retornam dados"""
+        conn = self.db.connect()
+        cursor = conn.cursor(dictionary=True)
+        try:
+            cursor.execute(query, params or ())
+            return cursor.fetchall()
+        finally:
+            cursor.close()
+            conn.close()
+    
+    def execute_update_query(self, query, params=None):
+        """Para INSERT/UPDATE/DELETE"""
+        conn = self.db.connect()
+        cursor = conn.cursor()
+        try:
+            cursor.execute(query, params or ())
+            conn.commit()
+            return cursor.rowcount
+        except Exception as e:
+            conn.rollback()
+            raise e
         finally:
             cursor.close()
             conn.close()

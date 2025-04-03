@@ -9,6 +9,8 @@ from interface.sales_profit import SalesProfitAnalysis
 from database.db import DatabaseManager
 import extra_streamlit_components as stx
 from config import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
+from testes_sales import SalesManager
+
 
 # Configuração inicial da página
 st.set_page_config(
@@ -26,7 +28,7 @@ db_manager.initialize_database()
 
 # Página de login/cadastro
 if not auth.is_authenticated():
-    st.title("Kirvano Manager - Login")
+    st.title("Marketing Manager - Login")
     
     tab1, tab2 = st.tabs(["Login", "Cadastro"])
     
@@ -56,7 +58,7 @@ if not auth.is_authenticated():
 
 # Páginas autenticadas
 else:
-    # Barra lateral com menu
+    
     st.sidebar.title(f"Olá, {auth.get_current_username()}!")
     if st.sidebar.button("Logout"):
         auth.logout_user()
@@ -79,7 +81,7 @@ else:
     user_id = auth.get_current_user_id()
     
     if selected_page == "Dashboard":
-        page.show_main_dashboard(user_id)
+        page.show_dashboard(user_id)
     elif selected_page == "Produtos":
         page.show_product_form(user_id)
         page.show_product_list(user_id)
